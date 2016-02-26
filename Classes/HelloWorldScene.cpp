@@ -2,6 +2,8 @@
 #include "Definitions.h"
 USING_NS_CC;
 
+// git add -u .
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -65,7 +67,7 @@ bool HelloWorld::init()
 				blockBody->getShape(0)->setFriction(0.0f);
 				blockBody->getShape(0)->setRestitution(1.f);
 				blockBody->setDynamic(false);
-				blockBody->setContactTestBitmask(0x000001);
+				blockBody->setContactTestBitmask(COLLISION_BITMASK_BRICK);
 				block->setPhysicsBody(blockBody);
 				block->setTag(TAG_BRICK);
 				block->setScale(SCALE_BRICK);
