@@ -12,8 +12,7 @@ public:
 	bool hasPhysics;
 	// Update Function
 
-	void virtual update(float delta, InputManager inpMan) {}
-
+	void virtual update(float delta, InputManager inpMan) { updateStart(); }
 	// Sprite Functions
 
 	void setCurrentSprite(int index) { if (index < sprList.capacity()) sprCurrent = sprList.at(index); }

@@ -5,6 +5,7 @@
 #include "KonFu\Input\InputManager.h"
 #include "Actors\Ball.h"
 #include "Actors\Paddle.h"
+#include "Actors\Edge.h"
 USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
@@ -27,7 +28,7 @@ public:
 
 	Ball ball;
 	Paddle paddle;
-	Sprite* pEdge;
+	Edge edge;
 
 
 	PhysicsWorld* pWorld;

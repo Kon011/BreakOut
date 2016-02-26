@@ -39,46 +39,19 @@ bool HelloWorld::init()
 
 	// Start Custom
 	// Define Edge
-	pEdge = Sprite::create();
-	auto boundBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);// Create physics body
-	boundBody->getShape(0)->setRestitution(1.0f);
-	boundBody->getShape(0)->setFriction(0.0f);
-	boundBody->getShape(0)->setDensity(1.0f);
-	pEdge->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2)); // Set the position and the centre of Box in the center of the screen
-	pEdge->setPhysicsBody(boundBody); // Set physics Body
-	boundBody->setContactTestBitmask(0x000001); // This is the important command, if not available, there is nothing happening when colliding
+	Sprite* pEdge = Sprite::create();
+	edge.init(pEdge, visibleSize);
 	this->addChild(pEdge); // Add into Layer
-	pEdge->setTag(TAG_EDGE); // Tag==0, to check object when colliding belongs to some kind
+
 
 	// Create Paddle
 	Sprite* pPaddle = Sprite::create(SPRITE_PATH_PADDLE);
-	auto paddleBody = PhysicsBody::createBox(pPaddle->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-	paddleBody->getShape(0)->setRestitution(1.0f);
-	paddleBody->getShape(0)->setFriction(0.0f);
-	paddleBody->getShape(0)->setDensity(10.0f);
-	paddleBody->setGravityEnable(false);
-	paddleBody->setDynamic(false); // Set static when reacting, no restitution, no changing position
-	pPaddle->setPosition(visibleSize.width / 2, 50);
-	pPaddle->setPhysicsBody(paddleBody);
-	paddleBody->setContactTestBitmask(0x000001); // With reaction 
-	pPaddle->setTag(TAG_PADDLE);
-	pPaddle->setScale(SCALE_PADDLE);
-
+	paddle.init(pPaddle, Vec2(visibleSize.width / 2, 50));
 	this->addChild(pPaddle);
 
 	// Create Ball
 	Sprite* pBall = Sprite::create(SPRITE_PATH_BALL, Rect(0, 0, 52, 52));
-	pBall->setPosition(pPaddle->getPositionX(), pPaddle->getPositionY() + 100);
-	auto ballBody = PhysicsBody::createCircle(pBall->getContentSize().width / 2.); // The physics body circle shape
-	ballBody->getShape(0)->setRestitution(1.0f);
-	ballBody->getShape(0)->setFriction(0.0f);
-	ballBody->getShape(0)->setDensity(1.0f);
-	ballBody->setGravityEnable(false); // Not set acceleration
-	pBall->setPhysicsBody(ballBody); // Set Physics body
-	ballBody->setContactTestBitmask(0x000001); //
-	pBall->setTag(TAG_BALL);
-	pBall->setScale(SCALE_BALL);
-
+	ball.init(pBall, Vec2(pPaddle->getPositionX(), pPaddle->getPositionY() + 100));
 	this->addChild(pBall);
 
 	// Create Bricks
@@ -112,17 +85,6 @@ bool HelloWorld::init()
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
 	dispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-	
-	// Init object
-
-	ball.addSprite(pBall);
-	ball.setCurrentSprite(0);
-	ball.hasPhysics = true;
-
-	paddle.addSprite(pPaddle);
-	paddle.setCurrentSprite(0);
-	paddle.hasPhysics = true;
-	paddle.speed = SPEED_PADDLE;
 
 	// Input
 
@@ -149,7 +111,7 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 	int tagA = spriteA->getTag();
 	int tagB = spriteB->getTag();
 
-	if (tagA == 3) // is brick
+	if (tagA == TAG_BRICK) // is brick
 	{
 
 		this->removeChild(spriteA, true); // delete brick
@@ -157,7 +119,7 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 										  //spriteA->removeFromParentAndCleanup(true);
 	}
 
-	if (tagB == 3)  // is brick
+	if (tagB == TAG_BRICK)  // is brick
 	{
 		this->removeChild(spriteB, true); // delete brick
 

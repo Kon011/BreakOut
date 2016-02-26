@@ -1,5 +1,5 @@
 #include "Paddle.h"
-
+#include "./Definitions.h"
 void Paddle::update(float delta, InputManager inpMan) {
 	updateStart();
 
@@ -8,4 +8,24 @@ void Paddle::update(float delta, InputManager inpMan) {
 	if (inpMan.getKeyboard().getKey(Keyboard::KeyCode::KEY_RIGHT_ARROW))
 		sprCurrent->setPositionX(sprCurrent->getPositionX() + speed);
 
+}
+
+void Paddle::init(cocos2d::Sprite* spr, cocos2d::Vec2 pos) {
+
+	spr->setPosition(pos);
+	auto paddleBody = cocos2d::PhysicsBody::createBox(spr->getContentSize(), cocos2d::PHYSICSBODY_MATERIAL_DEFAULT);
+	paddleBody->getShape(0)->setRestitution(1.0f);
+	paddleBody->getShape(0)->setFriction(0.0f);
+	paddleBody->getShape(0)->setDensity(10.0f);
+	paddleBody->setGravityEnable(false);
+	paddleBody->setDynamic(false);
+	spr->setPhysicsBody(paddleBody);
+	paddleBody->setContactTestBitmask(COLLISION_BITMASK_PADDLE); 
+	spr->setTag(TAG_PADDLE);
+	spr->setScale(SCALE_PADDLE);
+
+	addSprite(spr);
+	setCurrentSprite(sprList.getIndex(spr));
+	hasPhysics = true;
+	speed = SPEED_PADDLE;
 }
