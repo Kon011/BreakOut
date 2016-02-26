@@ -4,6 +4,7 @@
 class Paddle : public Actor
 {
 public:
+	cocos2d::Vec2 defaultPosition;
 	float speed;
 	int windowWidth;
 	void init(cocos2d::Sprite* spr, cocos2d::Vec2 pos, int width);

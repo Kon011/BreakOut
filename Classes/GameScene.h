@@ -1,5 +1,5 @@
-#ifndef __HELLOWORLD_SCENE_H__
-#define __HELLOWORLD_SCENE_H__
+#ifndef __GAME_SCENE_H__
+#define __GAME_SCENE_H__
 
 #include <vector>
 #include "cocos2d.h"
@@ -10,15 +10,15 @@
 #include "Actors\Brick.h"
 USING_NS_CC;
 
-class HelloWorld : public cocos2d::Layer
+class GameScene : public cocos2d::Layer
 {
 public:
-    static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene();
 
-    virtual bool init();
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+	virtual bool init();
+
+	// implement the "static create()" method manually
+	CREATE_FUNC(GameScene);
 
 	void update(float) override;
 
@@ -53,4 +53,5 @@ private:
 
 };
 
-#endif // __HELLOWORLD_SCENE_H__
+
+#endif // __MAIN_MENU_SCENE_H__

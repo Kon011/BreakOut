@@ -1,31 +1,34 @@
-#include "HelloWorldScene.h"
+#include "GameScene.h"
+#include "MainMenuScene.h"
+#include "Definitions.h"
+#include <SimpleAudioEngine.h>
 #include "Definitions.h"
 USING_NS_CC;
 
 // git add -u .
 
-Scene* HelloWorld::createScene()
+Scene* GameScene::createScene()
 {
-    // 'scene' is an autorelease object
-    //auto scene = Scene::create();
+	// 'scene' is an autorelease object
+	//auto scene = Scene::create();
 	auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	Vect gravity(0.0f, 0.0f);
 	scene->getPhysicsWorld()->setGravity(gravity);
-    
-    // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+
+	// 'layer' is an autorelease object
+	auto layer = GameScene::create();
 	layer->setPhyWorld(scene->getPhysicsWorld());
 
-    // add layer as a child to scene
-    scene->addChild(layer);
+	// add layer as a child to scene
+	scene->addChild(layer);
 
-    // return the scene
-    return scene;
+	// return the scene
+	return scene;
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool GameScene::init()
 {
 	if (!Layer::init())
 	{
@@ -42,7 +45,7 @@ bool HelloWorld::init()
 	this->addChild(pEdge); // Add into Layer
 
 
-	// Create Paddle
+						   // Create Paddle
 	Sprite* pPaddle = Sprite::create(SPRITE_PATH_PADDLE);
 	paddle.init(pPaddle, Vec2(visibleSize.width / 2, 50), visibleSize.width);
 	this->addChild(pPaddle);
@@ -66,7 +69,7 @@ bool HelloWorld::init()
 				this->addChild(pBlock);
 			}
 		}
-	
+
 	// Score
 
 	score = 0;
@@ -82,7 +85,7 @@ bool HelloWorld::init()
 
 	auto dispatcher = Director::getInstance()->getEventDispatcher();
 	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
+	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
 	dispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 	// Input
@@ -90,8 +93,8 @@ bool HelloWorld::init()
 	auto keyListener = EventListenerKeyboard::create();
 
 
-	keyListener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
-	keyListener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
+	keyListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
+	keyListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, this);
 	this->scheduleUpdate();
@@ -99,7 +102,7 @@ bool HelloWorld::init()
 	return true;
 }
 
-bool HelloWorld::onContactBegin(PhysicsContact& contact)
+bool GameScene::onContactBegin(PhysicsContact& contact)
 {
 
 	auto spriteA = (Sprite*)contact.getShapeA()->getBody()->getNode();
@@ -108,7 +111,7 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 	int tagA = spriteA->getTag();
 	int tagB = spriteB->getTag();
 
-	if (tagA == TAG_BRICK) 
+	if (tagA == TAG_BRICK)
 	{
 		this->removeChild(spriteA, true);
 		score++;
@@ -118,10 +121,10 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 		}
 	}
 
-	if (tagB == TAG_BRICK) 
+	if (tagB == TAG_BRICK)
 	{
-		this->removeChild(spriteB, true); 
-		spriteB->removeFromParentAndCleanup(true);
+		this->removeChild(spriteB, true);
+		//spriteB->removeFromParentAndCleanup(true);
 		score++;
 		if (gameStart && !gameEnded) {
 			__String *tempScore = __String::createWithFormat("%i", score);
@@ -132,6 +135,11 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 	if ((tagA == 0 || tagB == 0)& (ball.getCurrentSprite()->getPositionY() <= paddle.getCurrentSprite()->getPositionY()))
 	{
 		gameEnded = true;
+		//auto scene = GameScene::createScene();
+		//Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+
+		auto scene = MainMenuScene::createScene();
+		Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 		/*
 		auto gameOverScene = GameOverScene::create();
 		gameOverScene->getLayer()->getLabel()->setString("You Lose!");
@@ -144,11 +152,11 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 
 
 
-void HelloWorld::update(float delta) {
+void GameScene::update(float delta) {
 
 	ball.update(delta, inputManager);
 	paddle.update(delta, inputManager);
-	
+
 	// Before game start
 
 	if (!gameStart) {
@@ -157,7 +165,7 @@ void HelloWorld::update(float delta) {
 }
 
 
-void HelloWorld::onKeyEvent(EventKeyboard::KeyCode keyCode, bool isPressed) {
+void GameScene::onKeyEvent(EventKeyboard::KeyCode keyCode, bool isPressed) {
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_SPACE:
 	case EventKeyboard::KeyCode::KEY_ENTER:
@@ -188,24 +196,24 @@ void HelloWorld::onKeyEvent(EventKeyboard::KeyCode keyCode, bool isPressed) {
 	}
 }
 
-void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
+void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	onKeyEvent(keyCode, true);
 }
 
-void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
+void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 	onKeyEvent(keyCode, false);
 }
 
-bool HelloWorld::genLevel(int row, int col) {
+bool GameScene::genLevel(int row, int col) {
 	bool result = true;
 
 	// Set no spawn height
 	if (!(row * TILE_HEIGHT + TILE_HEIGHT / 2 > ZONE_NOSPAWN_HEIGHT))
 		result &= false;
 	if (!(col == 15 || col == 0 && row > 20 || (row == 21 || row == 22) && col != 14
-		|| (row == 43 || row == 42 || (row == 27 || row == 28) && col != 12 ) && col != 14 && col != 1 
-		|| row > 20 && col == 13 && row < 44 || row > 26 && col == 2 && row < 44 || (row == 43 || row == 42) && col < 14 && col > 1 
-		|| (col == 6 || col == 5 || col == 10 || col == 9) && (row == 16 ||  row == 15 || row == 34 || row == 35)
+		|| (row == 43 || row == 42 || (row == 27 || row == 28) && col != 12) && col != 14 && col != 1
+		|| row > 20 && col == 13 && row < 44 || row > 26 && col == 2 && row < 44 || (row == 43 || row == 42) && col < 14 && col > 1
+		|| (col == 6 || col == 5 || col == 10 || col == 9) && (row == 16 || row == 15 || row == 34 || row == 35)
 		))
 		result &= false;
 	return result;

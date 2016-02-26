@@ -16,6 +16,7 @@ void Paddle::update(float delta, InputManager inpMan) {
 }
 
 void Paddle::init(cocos2d::Sprite* spr, cocos2d::Vec2 pos, int width) {
+	defaultPosition = pos;
 	windowWidth = width;
 	spr->setPosition(pos);
 	auto paddleBody = cocos2d::PhysicsBody::createBox(spr->getContentSize(), cocos2d::PHYSICSBODY_MATERIAL_DEFAULT);

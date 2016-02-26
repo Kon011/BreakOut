@@ -14,7 +14,6 @@ public:
 
 	void virtual update(float delta, InputManager inpMan) { updateStart(); }
 	// Sprite Functions
-
 	void setCurrentSprite(int index) { if (index < sprList.capacity()) sprCurrent = sprList.at(index); }
 	cocos2d::Sprite* getCurrentSprite() { return sprCurrent; }
 

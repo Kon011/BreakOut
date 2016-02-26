@@ -5,7 +5,7 @@
 class Ball : public Actor
 {
 public:
-
+	cocos2d::Vec2 defaultPosition;
 	cocos2d::Vect force = cocos2d::Vect(SPEED_BALL_X * SPEED_BALL_MULTIPLIER, SPEED_BALL_Y * SPEED_BALL_MULTIPLIER);
 	void init(cocos2d::Sprite* spr, cocos2d::Vec2 pos);
 	void startMovement();
