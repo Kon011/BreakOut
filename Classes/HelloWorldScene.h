@@ -1,11 +1,13 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 
+#include <vector>
 #include "cocos2d.h"
 #include "KonFu\Input\InputManager.h"
 #include "Actors\Ball.h"
 #include "Actors\Paddle.h"
 #include "Actors\Edge.h"
+#include "Actors\Brick.h"
 USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
@@ -29,7 +31,7 @@ public:
 	Ball ball;
 	Paddle paddle;
 	Edge edge;
-
+	std::vector<Brick> brickList;
 
 	PhysicsWorld* pWorld;
 	bool onContactBegin(PhysicsContact& contact);

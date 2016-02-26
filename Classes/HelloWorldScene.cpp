@@ -22,10 +22,6 @@ Scene* HelloWorld::createScene()
 
     // return the scene
     return scene;
-
-	
-
-
 }
 
 // on "init" you need to initialize your instance
@@ -58,6 +54,8 @@ bool HelloWorld::init()
 
 	// Create Bricks
 
+	/*
+	
 	for (int i = 0; i < (int)visibleSize.width / TILE_WIDTH; i++)
 		for (int j = 0; j < (int)visibleSize.height / TILE_HEIGHT; j++) {
 			if (true) {
@@ -78,6 +76,18 @@ bool HelloWorld::init()
 					(j * TILE_HEIGHT) + block->getContentSize().height / 2));
 
 				this->addChild(block);
+			}
+		}
+	*/
+	for (int i = 0; i < (int)visibleSize.width / TILE_WIDTH; i++)
+		for (int j = 0; j < (int)visibleSize.height / TILE_HEIGHT; j++) {
+			if (true) {
+				Sprite* pBlock = Sprite::create(SPRITE_PATH_BRICK);
+				Brick brick;
+				brick.init(pBlock, Vec2((i * TILE_WIDTH) + pBlock->getContentSize().width / 2,
+					(j * TILE_HEIGHT) + pBlock->getContentSize().height / 2));
+				brickList.push_back(brick);
+				this->addChild(pBlock);
 			}
 		}
 
@@ -115,7 +125,11 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 
 	if (tagA == TAG_BRICK) // is brick
 	{
-
+		for (int i = 0; i < brickList.size(); i++)
+			if (brickList.at(i).getCurrentSprite() == spriteA) {
+				CCLOG("Index of deleted bar: %d", i);
+				brickList.erase(brickList.begin() + i);
+			}
 		this->removeChild(spriteA, true); // delete brick
 
 										  //spriteA->removeFromParentAndCleanup(true);
@@ -123,6 +137,11 @@ bool HelloWorld::onContactBegin(PhysicsContact& contact)
 
 	if (tagB == TAG_BRICK)  // is brick
 	{
+		for (int i = 0; i < brickList.size(); i++)
+			if (brickList.at(i).getCurrentSprite() == spriteB) {
+				CCLOG("Index of deleted bar: %d", i);
+				brickList.erase(brickList.begin() + i);
+			}
 		this->removeChild(spriteB, true); // delete brick
 
 										  //spriteB->removeFromParentAndCleanup(true);

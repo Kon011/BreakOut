@@ -20,11 +20,11 @@ public:
 
 	void addSprite(cocos2d::Sprite* sprite) { sprList.pushBack(sprite); }
 	cocos2d::Sprite* getSprite(int index) {  if (index < sprList.capacity())return sprList.at(index); return nullptr; }
-	int  getSpriteListSize() { sprList.capacity(); }
+	int  getSpriteListSize() { sprList.size(); }
 	void clearSpriteList() { sprList.clear(); }
 	void removeSprite(int index) { if(index < sprList.capacity()) sprList.erase(index); }
 	void removeSprite(cocos2d::Sprite* sprite) { sprList.eraseObject(sprite); }
-
+	virtual ~Actor() { clearSpriteList(); }
 protected:
 	void updateStart() {
 		if (sprCurrent != nullptr) {
@@ -34,5 +34,6 @@ protected:
 				sprCurrent->setPosition(posVector);
 		}
 	}
+	
 };
 #endif
