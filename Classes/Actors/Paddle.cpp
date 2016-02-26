@@ -8,10 +8,15 @@ void Paddle::update(float delta, InputManager inpMan) {
 	if (inpMan.getKeyboard().getKey(Keyboard::KeyCode::KEY_RIGHT_ARROW))
 		sprCurrent->setPositionX(sprCurrent->getPositionX() + speed);
 
+	if(sprCurrent->getPositionX() - sprCurrent->getContentSize().width * SCALE_PADDLE / 2 < 0)
+		sprCurrent->setPositionX(sprCurrent->getContentSize().width * SCALE_PADDLE / 2);
+	if(sprCurrent->getPositionX() + sprCurrent->getContentSize().width * SCALE_PADDLE / 2 > windowWidth)
+		sprCurrent->setPositionX(windowWidth - sprCurrent->getContentSize().width * SCALE_PADDLE / 2);
+
 }
 
-void Paddle::init(cocos2d::Sprite* spr, cocos2d::Vec2 pos) {
-
+void Paddle::init(cocos2d::Sprite* spr, cocos2d::Vec2 pos, int width) {
+	windowWidth = width;
 	spr->setPosition(pos);
 	auto paddleBody = cocos2d::PhysicsBody::createBox(spr->getContentSize(), cocos2d::PHYSICSBODY_MATERIAL_DEFAULT);
 	paddleBody->getShape(0)->setRestitution(1.0f);
@@ -27,5 +32,5 @@ void Paddle::init(cocos2d::Sprite* spr, cocos2d::Vec2 pos) {
 	addSprite(spr);
 	setCurrentSprite(sprList.getIndex(spr));
 	hasPhysics = true;
-	speed = SPEED_PADDLE;
+	speed = SPEED_PADDLE * SPEED_PADDLE_MULTIPLIER;
 }

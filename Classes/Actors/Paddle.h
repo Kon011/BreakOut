@@ -5,8 +5,8 @@ class Paddle : public Actor
 {
 public:
 	float speed;
-
-	void init(cocos2d::Sprite* spr, cocos2d::Vec2 pos);
+	int windowWidth;
+	void init(cocos2d::Sprite* spr, cocos2d::Vec2 pos, int width);
 	void update(float delta, InputManager inpMan) override;
 };
 
