@@ -6,7 +6,10 @@
 #define SPRITE_PATH_DEFAULT "test/tile_test01_16x16.png"
 #define SPRITE_PATH_BALL "ball.png"
 #define SPRITE_PATH_PADDLE "paddle.png"
-#define SPRITE_PATH_BRICK "brick01.png"
+#define SPRITE_PATH_BRICK_1 "brick01.png"
+#define SPRITE_PATH_BRICK_2 "brick02.png"
+#define SPRITE_PATH_BRICK_3 "brick03.png"
+#define SPRITE_PATH_BRICK_4 "brick04.png"
 
 #define TAG_EDGE 0
 #define TAG_BALL 1
@@ -21,7 +24,7 @@
 #define SPEED_PADDLE 8
 #define SPEED_PADDLE_MULTIPLIER 1.5f
 #define SPEED_BALL_DEFAULT 1010000.0f
-#define SPEED_BALL_MULTIPLIER 0.5
+#define SPEED_BALL_MULTIPLIER 1
 #define SPEED_BALL_X 110000.0f
 #define SPEED_BALL_Y 110000.0f
 
@@ -36,11 +39,13 @@
 #define COLLISION_BITMASK_BRICK 0x000001
 
 #define TRANSITION_TIME 0.5
+#define TRANSITION_TIME_WIN 5
+#define TRANSITION_TIME_LOSE 5
 
-#define ZONE_NOSPAWN_HEIGHT 200
+#define ZONE_NOSPAWN_HEIGHT 190
 
-#define FONT_SIZE_3 40
 #define FONT_SIZE_1 24
 #define FONT_SIZE_2 72
+#define FONT_SIZE_3 42
 
 #endif

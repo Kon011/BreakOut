@@ -38,20 +38,26 @@ bool GameScene::init()
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 
-	// Start Custom
-	// Define Edge
+	// Background
+
+	auto backgroundSprite = Sprite::create("Background.png");
+	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+	this->addChild(backgroundSprite);
+
+	// Create Game Edge
 	Sprite* pEdge = Sprite::create();
 	edge.init(pEdge, visibleSize);
 	this->addChild(pEdge); // Add into Layer
 
 
-						   // Create Paddle
+	// Create Paddle
 	Sprite* pPaddle = Sprite::create(SPRITE_PATH_PADDLE);
 	paddle.init(pPaddle, Vec2(visibleSize.width / 2, 50), visibleSize.width);
 	this->addChild(pPaddle);
 
 	// Create Ball
-	Sprite* pBall = Sprite::create(SPRITE_PATH_BALL, Rect(0, 0, 16, 16));
+	Sprite* pBall = Sprite::create(SPRITE_PATH_BALL, Rect(0, 0, 24, 24));
 	ball.init(pBall, Vec2(pPaddle->getPositionX(),
 		pPaddle->getPositionY() + pBall->getContentSize().height + 10));
 	this->addChild(pBall);
@@ -61,7 +67,16 @@ bool GameScene::init()
 		for (int j = 0; j < (int)visibleSize.height / TILE_HEIGHT; j++) {
 			// level set
 			if (genLevel(j, i)) {
-				Sprite* pBlock = Sprite::create(SPRITE_PATH_BRICK);
+				Sprite* pBlock;
+				if (j % 16 >= 0 && j % 16 <= 3)
+					pBlock = Sprite::create(SPRITE_PATH_BRICK_1);
+				else if (j % 16 >= 4 && j % 16 <= 7)
+					pBlock = Sprite::create(SPRITE_PATH_BRICK_2);
+				else if (j % 16 >= 8 && j % 16 <= 11)
+					pBlock = Sprite::create(SPRITE_PATH_BRICK_3);
+				else if (j % 16 >= 12 && j % 16 <= 15)
+					pBlock = Sprite::create(SPRITE_PATH_BRICK_4);
+				else pBlock = Sprite::create(SPRITE_PATH_BRICK_1);
 				Brick brick;
 				brick.init(pBlock, Vec2((i * TILE_WIDTH) + TILE_WIDTH / 2,
 					(j * TILE_HEIGHT) + TILE_HEIGHT / 2));
@@ -77,7 +92,7 @@ bool GameScene::init()
 	__String *tempScore = __String::createWithFormat("%i", score);
 
 	scoreLabel = Label::createWithTTF(tempScore->getCString(), "fonts/mecha_cf/Mecha_Condensed.ttf", FONT_SIZE_3);
-	//scoreLabel->setColor(Color3B::WHITE);
+	scoreLabel->setColor(Color3B::BLACK);
 	scoreLabel->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height * 0.75 + origin.y));
 
 	this->addChild(scoreLabel, 10000);
@@ -115,6 +130,7 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 	{
 		this->removeChild(spriteA, true);
 		score++;
+		brickCount--;
 		if (gameStart && !gameEnded) {
 			__String *tempScore = __String::createWithFormat("%i", score);
 			scoreLabel->setString(tempScore->getCString());
@@ -126,11 +142,16 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 		this->removeChild(spriteB, true);
 		//spriteB->removeFromParentAndCleanup(true);
 		score++;
+		brickCount--;
 		if (gameStart && !gameEnded) {
 			__String *tempScore = __String::createWithFormat("%i", score);
 			scoreLabel->setString(tempScore->getCString());
 		}
 	}
+	if (brickCount == 0) {
+	
+	}
+
 
 	if ((tagA == 0 || tagB == 0)& (ball.getCurrentSprite()->getPositionY() <= paddle.getCurrentSprite()->getPositionY()))
 	{
@@ -213,8 +234,10 @@ bool GameScene::genLevel(int row, int col) {
 	if (!(col == 15 || col == 0 && row > 20 || (row == 21 || row == 22) && col != 14
 		|| (row == 43 || row == 42 || (row == 27 || row == 28) && col != 12) && col != 14 && col != 1
 		|| row > 20 && col == 13 && row < 44 || row > 26 && col == 2 && row < 44 || (row == 43 || row == 42) && col < 14 && col > 1
-		|| (col == 6 || col == 5 || col == 10 || col == 9) && (row == 16 || row == 15 || row == 34 || row == 35)
+		|| (col == 6 || col == 5 || col == 10 || col == 9) && (row == 16 || row == 17 || row == 34 || row == 35)
 		))
 		result &= false;
+	if (result)
+		brickCount++;
 	return result;
 }

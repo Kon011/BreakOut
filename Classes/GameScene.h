@@ -39,6 +39,7 @@ public:
 	Paddle paddle;
 	Edge edge;
 	std::vector<Brick> brickList;
+	int brickCount = 0;
 
 	PhysicsWorld* pWorld;
 	bool onContactBegin(PhysicsContact& contact);

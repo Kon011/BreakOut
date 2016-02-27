@@ -31,12 +31,13 @@ bool MainMenuScene::init()
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	/*
+
 	auto backgroundSprite = Sprite::create("Background.png");
 	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
 	this->addChild(backgroundSprite);
-	
+
+	/*
 	auto titleSprite = Sprite::create("Title.png");
 	titleSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height - titleSprite->getContentSize().height));
 
@@ -46,12 +47,13 @@ bool MainMenuScene::init()
 	auto titleLabel = Label::createWithTTF("Break Out", "fonts/mecha_cf/Mecha_Bold.ttf", FONT_SIZE_2);
 	titleLabel->setPosition(Point(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2)));
-
+	titleLabel->setColor(Color3B::BLACK);
 	this->addChild(titleLabel);
 	//
 
 
 	auto playLabel = Label::createWithTTF("Play!", "fonts/mecha_cf/Mecha_Bold.ttf", FONT_SIZE_3);
+	playLabel->setColor(Color3B::BLACK);
 	auto BtnPlay = MenuItemLabel::create(playLabel, CC_CALLBACK_1(MainMenuScene::GoToGameScene, this));
 	BtnPlay->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 80));
 	auto menu = Menu::create(BtnPlay, NULL);

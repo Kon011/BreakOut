@@ -58,7 +58,7 @@ bool HelloWorld::init()
 		for (int j = 0; j < (int)visibleSize.height / TILE_HEIGHT; j++) {
 			// level set
 			if (genLevel(j, i)) {
-				Sprite* pBlock = Sprite::create(SPRITE_PATH_BRICK);
+				Sprite* pBlock = Sprite::create(SPRITE_PATH_BRICK_1);
 				Brick brick;
 				brick.init(pBlock, Vec2((i * TILE_WIDTH) + TILE_WIDTH / 2,
 					(j * TILE_HEIGHT) + TILE_HEIGHT / 2));
