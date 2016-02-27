@@ -149,7 +149,7 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 			scoreLabel->setString(tempScore->getCString());
 		}
 	}
-	if (brickCount == 0) {
+	if (brickCount == 0 && gameStart) {
 	
 		auto endText = Label::createWithTTF("You Win!", "fonts/mecha_cf/Mecha_Bold.ttf", FONT_SIZE_2);
 		endText->setColor(Color3B::BLACK);

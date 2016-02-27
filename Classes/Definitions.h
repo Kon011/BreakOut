@@ -1,7 +1,7 @@
 #ifndef __KON_DEFINITIONS_H__
 #define __KON_DEFINITIONS_H__
 
-#define WINDOW_TITLE "Break Out"
+#define WINDOW_TITLE "Break Out Lite"
 
 #define SPRITE_PATH_DEFAULT "test/tile_test01_16x16.png"
 #define SPRITE_PATH_BALL "ball.png"
