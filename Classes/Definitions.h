@@ -47,5 +47,6 @@
 #define FONT_SIZE_1 24
 #define FONT_SIZE_2 72
 #define FONT_SIZE_3 42
+#define FONT_SIZE_4 144
 
 #endif

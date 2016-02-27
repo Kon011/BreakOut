@@ -44,9 +44,9 @@ bool MainMenuScene::init()
 	this->addChild(titleSprite);
 	*/
 	// visibleSize.height - titleLabel->getContentSize().height //to set at top
-	auto titleLabel = Label::createWithTTF("Break Out", "fonts/mecha_cf/Mecha_Bold.ttf", FONT_SIZE_2);
+	auto titleLabel = Label::createWithTTF("Break Out", "fonts/mecha_cf/Mecha_Bold.ttf", FONT_SIZE_4);
 	titleLabel->setPosition(Point(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height / 2)));
+		origin.y + visibleSize.height / 2 + 100)));
 	titleLabel->setColor(Color3B::BLACK);
 	this->addChild(titleLabel);
 	//

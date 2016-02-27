@@ -129,6 +129,7 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 	if (tagA == TAG_BRICK)
 	{
 		this->removeChild(spriteA, true);
+
 		score++;
 		brickCount--;
 		if (gameStart && !gameEnded) {
@@ -140,7 +141,7 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 	if (tagB == TAG_BRICK)
 	{
 		this->removeChild(spriteB, true);
-		//spriteB->removeFromParentAndCleanup(true);
+
 		score++;
 		brickCount--;
 		if (gameStart && !gameEnded) {
@@ -150,6 +151,14 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 	}
 	if (brickCount == 0) {
 	
+		auto endText = Label::createWithTTF("You Win!", "fonts/mecha_cf/Mecha_Bold.ttf", FONT_SIZE_2);
+		endText->setColor(Color3B::BLACK);
+		endText->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height * 0.50 + origin.y));
+		this->addChild(endText, 10001);
+
+		auto scene = MainMenuScene::createScene();
+		Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME_WIN, scene));
+
 	}
 
 
@@ -158,9 +167,14 @@ bool GameScene::onContactBegin(PhysicsContact& contact)
 		gameEnded = true;
 		//auto scene = GameScene::createScene();
 		//Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+		
+		auto endText = Label::createWithTTF("You Lose!", "fonts/mecha_cf/Mecha_Bold.ttf", FONT_SIZE_2);
+		endText->setColor(Color3B::BLACK);
+		endText->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height * 0.50 + origin.y));
+		this->addChild(endText, 10001);
 
 		auto scene = MainMenuScene::createScene();
-		Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+		Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME_LOSE, scene));
 		/*
 		auto gameOverScene = GameOverScene::create();
 		gameOverScene->getLayer()->getLabel()->setString("You Lose!");
